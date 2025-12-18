@@ -264,7 +264,7 @@ def build_mart_region_year_energy(fact_conso, fact_prod):
     mart.to_csv(OUT_MART, index=False)
     return mart
 
-
+#Main
 def main():
     fact_elecdom = build_fact_elecdom()
     fact_conso = build_fact_consumption_region_year()
