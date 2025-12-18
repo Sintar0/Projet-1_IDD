@@ -62,6 +62,14 @@ Pour chaque ligne, on retrouve généralement :
 - Nombre de points de livraison ou de sites (si présent)
 
 
-## TODO : 
-- finir la doc
-- ajouter les autres doc de transmission entre région
+## Remarque 
+### Ancienne problematique 
+Analyser la consommation électrique régionale au regard du mix de production électrique local, en particulier l’éolien, afin d’identifier si les régions productrices d’électricité éolienne sont également consommatrices nettes de cette énergie ou si celle-ci est redistribuée vers d’autres régions.
+### Adaptation 1
+- vu que les données de RTE ne sont pas disponibles directement (disponible via API, avec obligation de créer un compte mais on y arrive pas, et plus c'est que des données d'échanges entre pays et non entre région), alors nous allons changer la problèmeatique pour créer un score de consomation d'électricté à origine éolien qui dépendra du ratio entre la consomation totale d'électricité pour une région / la production éolien de cette région 
+=> problème : aucun moyen de déterminer le mix énergétique par région, information uniquement disponible à l'échelle nationale
+- la production énergétique d'une région une fois produite et injectée dans le réseaux se mélange avec le  reste on peut plus remonter à la source 
+
+### Adaptation 2 
+Déterminer le coefficient de contribution en énergie verte d'une région à l'échelle nationale, par rapport à sa consommation par mois, 
+- Il faut faire un table schema 
