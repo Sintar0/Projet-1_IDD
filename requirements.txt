@@ -1,2 +1,5 @@
+frictionless==4.40.8
 numpy==2.3.5
 pandas==2.3.3
+pandera==0.27.0
+plotly==6.5.0

@@ -4,6 +4,7 @@ import sys
 import os
 import plotly.express as px
 import json
+import pandera as pa
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -201,6 +202,7 @@ def prod_cons_stat(dataframe):
         bins=[-1, -0.5, -0.1, 0.1, 0.5, 2],
         labels=["Très déficitaire", "Déficitaire", "Équilibrée", "Excédentaire", "Très excédentaire"]
     )
+    generate_schema(df)
     return df 
 
 
@@ -274,6 +276,70 @@ def indice_contribution_graphe():
     )
 
     fig.write_html("carte_indice_pondere_regions.html")
+
+
+def generate_schema(dataframe):
+    schema = pa.infer_schema(dataframe)
+    schema.to_yaml("table_schema.yaml")
+
+
+def validate_schema(path : str):
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Le fichier {path} est introuvable.")
+    
+    schema = pa.DataFrameSchema.from_yaml("table_schema.yaml")
+    df = pd.read_csv(path, sep=",", encoding="utf-8-sig")
+    # conversions utiles avant validation
+    try : 
+        df_valid = schema.validate(df)
+        print("CSV valide OK")
+    except Exception as err:
+        print("#######  Erreur CSV invalide :")
+        print(err.failure_cases)
+
+
+def json_table_schem(path: str): 
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Le fichier {path} est introuvable.")
+    
+    df = df = pd.read_csv(path, sep=",", encoding="utf-8-sig")
+
+    type_mapping = {
+        "int64": "integer",
+        "float64": "number",
+        "object": "string",
+        "bool": "boolean",
+        "datetime64[ns]": "datetime"
+    }
+
+    fields = []
+    for col in df.columns:
+        fields.append({
+            "name": col,
+            "type": type_mapping.get(str(df[col].dtype), "string"),
+            "constraints": {
+                "required": not df[col].isnull().any()
+            }
+        })
+    schema = {"fields" : fields}
+    with open("table_schema.json", "w", encoding="utf-8") as f:
+        json.dump(schema, f, indent=2, ensure_ascii=False)
+
+
+def validation_with_json(path : str):
+    from frictionless import validate
+
+    report = validate(
+        path,
+        schema="table_schema.json"
+    )
+    if report.valid:
+        print("=> CSV valide selon le table schema")
+    else:
+        print("### Erreur CSV invalide")
+        for error in report.errors:
+            print(error)
+
 
 #Main
 def main():

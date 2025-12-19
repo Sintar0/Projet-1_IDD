@@ -1,0 +1,102 @@
+{
+  "fields": [
+    {
+      "name": "Date",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "nom_region",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "filiere_conso",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "conso_twh",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "code_region",
+      "type": "integer",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "nb_sites",
+      "type": "integer",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "habitants",
+      "type": "integer",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "filiere_prod",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "prod_twh",
+      "type": "number",
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "conso_region",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "prod_region",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "indice_pondere",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "indice_par_habitant",
+      "type": "number",
+      "constraints": {
+        "required": false
+      }
+    },
+    {
+      "name": "classe",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    }
+  ]
+}

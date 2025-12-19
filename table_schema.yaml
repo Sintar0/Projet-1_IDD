@@ -1,0 +1,284 @@
+schema_type: dataframe
+version: 0.27.0
+columns:
+  Date:
+    title: null
+    description: null
+    dtype: datetime64[ns]
+    nullable: false
+    checks:
+    - value: '2014-01-01 00:00:00'
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: '2025-10-01 00:00:00'
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  nom_region:
+    title: null
+    description: null
+    dtype: object
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  filiere_conso:
+    title: null
+    description: null
+    dtype: object
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  conso_twh:
+    title: null
+    description: null
+    dtype: float64
+    nullable: false
+    checks:
+    - value: 0.128828909
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 9.026957889302
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  code_region:
+    title: null
+    description: null
+    dtype: int64
+    nullable: false
+    checks:
+    - value: 11.0
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 94.0
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  nb_sites:
+    title: null
+    description: null
+    dtype: int64
+    nullable: false
+    checks:
+    - value: 2686699.0
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 127940526.0
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  habitants:
+    title: null
+    description: null
+    dtype: int64
+    nullable: false
+    checks:
+    - value: 347597.0
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 194997024.0
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  filiere_prod:
+    title: null
+    description: null
+    dtype: object
+    nullable: false
+    checks: null
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  prod_twh:
+    title: null
+    description: null
+    dtype: float64
+    nullable: true
+    checks:
+    - value: -0.049536384
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 12.92597802
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  conso_region:
+    title: null
+    description: null
+    dtype: float64
+    nullable: false
+    checks:
+    - value: 160.299176422788
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 6054.70538611488
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  prod_region:
+    title: null
+    description: null
+    dtype: float64
+    nullable: false
+    checks:
+    - value: 38.226942963
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 2705.600117981
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  indice_pondere:
+    title: null
+    description: null
+    dtype: float64
+    nullable: false
+    checks:
+    - value: -0.9855958447741845
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 0.045024498258570606
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  indice_par_habitant:
+    title: null
+    description: null
+    dtype: float64
+    nullable: true
+    checks:
+    - value: -0.7643926644936522
+      options:
+        check_name: greater_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    - value: 0.4267715342142918
+      options:
+        check_name: less_than_or_equal_to
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+  classe:
+    title: null
+    description: null
+    dtype: category
+    nullable: false
+    checks:
+    - value:
+      - "Tr\xE8s d\xE9ficitaire"
+      - "D\xE9ficitaire"
+      - "\xC9quilibr\xE9e"
+      - "Exc\xE9dentaire"
+      - "Tr\xE8s exc\xE9dentaire"
+      options:
+        check_name: isin
+        raise_warning: false
+        ignore_na: true
+    unique: false
+    coerce: false
+    required: true
+    regex: false
+checks: null
+index:
+- title: null
+  description: null
+  dtype: int64
+  nullable: false
+  checks:
+  - value: 0.0
+    options:
+      check_name: greater_than_or_equal_to
+      raise_warning: false
+      ignore_na: true
+  - value: 13773.0
+    options:
+      check_name: less_than_or_equal_to
+      raise_warning: false
+      ignore_na: true
+  name: null
+  unique: false
+  coerce: false
+dtype: null
+coerce: true
+strict: false
+name: null
+ordered: false
+unique: null
+report_duplicates: all
+unique_column_names: false
+add_missing_columns: false
+title: null
+description: null
