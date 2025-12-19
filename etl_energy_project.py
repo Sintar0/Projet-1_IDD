@@ -131,10 +131,11 @@ def merge_conso_prod_region_info():
     )
 
     prod_region["Date"] = pd.to_datetime(prod_region["Date"])
+    graphe_builder(conso_region)
+    graphe_builder(prod_region)
 
     conso_region = conso_region.merge(info_region, on="nom_region", how="left")
     prod_region = prod_region.merge(info_region, on="nom_region", how="left")
-
 
     ## merge conso et prod
     merged = conso_region.merge(
@@ -142,9 +143,6 @@ def merge_conso_prod_region_info():
         on=["code_region", "nom_region", "nb_sites", "habitants", "Date"],
         how="outer"
     )
-
-    graphe_builder(conso_region)
-    graphe_builder(prod_region)
 
     df = prod_cons_stat(merged)
     df.to_csv(OUT_DATASET, index=False)
@@ -260,7 +258,7 @@ def indice_contribution_graphe():
         featureidkey="properties.code",
         color="indice_pondere",
         color_continuous_scale="RdYlGn",
-        range_color=(-1, 1),
+        range_color=(-1, 0.3),
         hover_name="nom_region",
         hover_data={
             "indice_pondere": ":.2f",
@@ -276,7 +274,6 @@ def indice_contribution_graphe():
     )
 
     fig.write_html("carte_indice_pondere_regions.html")
-    fig.show()
 
 #Main
 def main():
