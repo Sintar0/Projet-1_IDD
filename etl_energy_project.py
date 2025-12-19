@@ -278,7 +278,7 @@ def indice_contribution_graphe():
     fig.write_html("carte_indice_pondere_regions.html")
     fig.show()
 
-
+#Main
 def main():
     merge_conso_prod_region_info()
     final_graphe()
