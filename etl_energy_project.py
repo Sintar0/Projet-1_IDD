@@ -20,37 +20,11 @@ OUT_INFO_REGION = OUT_DIR + "infos_region.csv"
 OUT_DATASET = OUT_DIR + "dataset_region_conso_prod.csv"
 JSON_REGION = "./data/regions.geojson"
 
-# -----------------------
-# Helpers
-# -----------------------
-def to_float_fr(x):
-    """Convertit '1,7' -> 1.7 ; garde NaN si vide."""
-    if pd.isna(x):
-        return np.nan
-    if isinstance(x, (int, float, np.number)):
-        return float(x)
-    s = str(x).strip()
-    if s == "":
-        return np.nan
-    s = s.replace(" ", "").replace(",", ".")
-    try:
-        return float(s)
-    except ValueError:
-        return np.nan
-
-
-def safe_int(x):
-    if pd.isna(x):
-        return np.nan
-    try:
-        return int(float(x))
-    except Exception:
-        return np.nan
-
 
 def region_info():
     """
-     Extraction des informations régionales (code_region, nom_region, nb_sites, habitants)
+     Extraction des informations régionales (code_region, nom_region, nb_sites, habitants).
+     Le nombre d'habitants et une approximation et non la valeur réelle 
     """
     if not os.path.exists(PATH_CONSO_ANNEE):
         raise FileNotFoundError(f"Le fichier {PATH_CONSO_ANNEE} est introuvable.")
@@ -87,6 +61,10 @@ def region_info():
 
 
 def merge_conso_prod_region_info():
+    """
+    Jointure des 3 différents dataset et création du dataset final avec gestion des types. Et appel des fonctions de construction des graphes.
+    return : dataframe et enregistre dans le fichier des out_dataset
+    """
     if not os.path.exists(OUT_INFO_REGION):
         region_info()
     if not os.path.exists(PATH_CONSO_REGION):
@@ -149,7 +127,14 @@ def merge_conso_prod_region_info():
     df.to_csv(OUT_DATASET, index=False)
     return df
 
+
 def graphe_builder(dataset):
+    """
+    Génération du graphe ne plotly pour tracer l'évolution des consommations / productions 
+    (prise en compte de la dernière colonnes en tant que valeur à représenter à modifier si necessaire pour bien choisir la colonne)
+   
+    :param dataset: Dataset à représenter 
+    """
     df = dataset.copy()
     df["Date"] = pd.to_datetime(df["Date"])
     valeur = df.columns[-1]
@@ -181,7 +166,14 @@ def graphe_builder(dataset):
     fig.write_html(f"{valeur}.html")
     return 
 
+
 def prod_cons_stat(dataframe):
+    """
+    Calcul des statistique avec les indices de consomations par région en fonctio de la quantité produite, indice pondéré avec la prise en compte du nombre d'habitant
+    mise en place d'une catégorisation de la région selon l'indice pondere
+    
+    :param dataframe: Description
+    """
     df = dataframe.copy()
     df["Date"] = pd.to_datetime(df["Date"])
 
@@ -207,6 +199,9 @@ def prod_cons_stat(dataframe):
 
 
 def final_graphe():
+    """
+    Génération du graphe de comparaison entre les données de consommation et les données de production de chaque région 
+    """
     if not os.path.exists(OUT_DATASET):
         merge_conso_prod_region_info()
     df = pd.read_csv(OUT_DATASET, sep=",", encoding="utf-8-sig")
@@ -245,6 +240,9 @@ def final_graphe():
 
 
 def indice_contribution_graphe():
+    """
+    Représentation des indices de contribution des régions sur une carte de la France avec code couleur indiquant la classe / indice 
+    """
     if not os.path.exists(OUT_DATASET):
         raise FileNotFoundError(f"Le fichier {OUT_DATASET} est introuvable.")
     
@@ -279,11 +277,22 @@ def indice_contribution_graphe():
 
 
 def generate_schema(dataframe):
+    """
+    Génération du table schema pour la validation de la table à partir du dataframe du dataset et enregistrement dans un format yaml "tabla_schema.yaml" 
+    
+    :param dataframe: table des données 
+    """
     schema = pa.infer_schema(dataframe)
     schema.to_yaml("table_schema.yaml")
 
 
 def validate_schema(path : str):
+    """
+    Validation du schema de la table fourni en paramètre avec le yaml déjà généré 
+    
+    :param path: path vers le fichier à valider 
+    :type path: str
+    """
     if not os.path.exists(path):
         raise FileNotFoundError(f"Le fichier {path} est introuvable.")
     
@@ -299,6 +308,12 @@ def validate_schema(path : str):
 
 
 def json_table_schem(path: str): 
+    """
+    Génération du table schema pour validation sous format json 
+    
+    :param path: path vers le fichier des données 
+    :type path: str
+    """
     if not os.path.exists(path):
         raise FileNotFoundError(f"Le fichier {path} est introuvable.")
     
@@ -327,6 +342,12 @@ def json_table_schem(path: str):
 
 
 def validation_with_json(path : str):
+    """
+    Validation du format du dataset via le fichier "table_schema.json" déjà généré 
+    
+    :param path: path vers le fichier à valider 
+    :type path: str
+    """
     from frictionless import validate
 
     report = validate(
@@ -341,8 +362,10 @@ def validation_with_json(path : str):
             print(error)
 
 
-#Main
 def main():
+    """
+    Fonction main appelé lors de l'exécution du fichier 
+    """
     merge_conso_prod_region_info()
     final_graphe()
     indice_contribution_graphe()
